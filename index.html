@@ -108,11 +108,11 @@ th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
     <h2>第四关 · 奖励视频</h2>
     <div class="videoWrap">
       <video id="rewardVideo" controls playsinline webkit-playsinline preload="metadata" poster="皮影_学生表演.jpg">
-        <source src="piying_reward.mp4?v=8" type="video/mp4"/>
+        <source src="piying_reward.mp4?v=9" type="video/mp4"/>
       </video>
       <div id="fallback" class="muted" style="margin-top:8px;display:none">
         视频加载遇到问题。你可以
-        <a href="piying_reward.mp4?v=8" download style="color:#60a5fa">点此下载</a> 或刷新重试（建议Wi-Fi/无痕窗口）。
+        <a href="piying_reward.mp4?v=9" download style="color:#60a5fa">点此下载</a> 或刷新重试（建议Wi-Fi/无痕窗口）。
       </div>
     </div>
     <div class="topbar" style="margin-top:10px">
@@ -132,12 +132,12 @@ th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
 </div>
 
 <script>
-/*** 你的 Google 表格 Apps Script 接口（已替换为你的 /exec） ***/
-const CLOUD_ENDPOINT = "https://script.google.com/macros/s/AKfycbx64Nh1_ytVTe1iVQGRcuVSibAApsKKUE_l2uHHfDN9mltufAQxJu24247daL8s0iex/exec";
+/*** ←←← 你的 Google 表格 Apps Script 接口（已替换为新的 /exec） ***/
+const CLOUD_ENDPOINT = "https://script.google.com/macros/s/AKfycbwTwxRApxbpkTGaANhBv40vUBjR2JaRYjge0uleyNP-VHdf3x9AVhqNfvcpFLE73Bsz/exec";
 
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 let timer=null,timeSec=0,started=false,v_seen=false;
-const STORAGE_KEY="tengchong_heritage_cloud_v2";
+const STORAGE_KEY="tengchong_heritage_cloud_v3";
 
 function startTimer(){timeSec=0;$("#time").textContent="0";timer=setInterval(()=>{$("#time").textContent=++timeSec;},1000)}
 function stopTimer(){if(timer){clearInterval(timer);timer=null}}
@@ -189,8 +189,8 @@ function medalPNG({name,grade,klass,time_sec,moves}){
   x.fillStyle="#e5e7eb"; x.font="bold 54px system-ui"; x.textAlign="center"; x.fillText("通 关", 450, 235);
   x.fillStyle="#93c5fd"; x.font="bold 34px system-ui"; x.fillText("腾冲皮影戏 · 非遗探秘闯关", 450, 60);
   x.fillStyle="#e5e7eb"; x.font="24px system-ui";
-  x.fillText(`昵称：${name||"-"}  年级：${grade||"-"}  班级：${klass||"-"}`, 450, 320);
-  x.fillText(`用时：${time_sec||0}s   L3步数：${moves||0}`, 450, 360);
+  x.fillText(`昵称：${name||"-"}  年级：${grade||"-"}  班级：${klass||"-"}  用时：${time_sec||0}s`, 450, 320);
+  x.fillText(`第三关步数：${moves||0}`, 450, 360);
   x.strokeStyle="#3b82f6"; x.lineWidth=6; x.strokeRect(24,24,852,552);
   const url=c.toDataURL("image/png"); const a=document.createElement("a"); a.href=url; a.download=`皮影戏通关勋章_${name||"匿名"}.png`; document.body.appendChild(a); a.click(); a.remove();
 }
@@ -307,9 +307,13 @@ $("#finalize").onclick=async ()=>{
 
   // —— 上传到 Google 表格（云端总表）——
   try{
-    if(CLOUD_ENDPOINT && CLOUD_ENDPOINT.startsWith("https://script.google.com/")){
-      await fetch(CLOUD_ENDPOINT, { method:"POST", body: JSON.stringify(rec) });
-    }
+    const resp = await fetch(CLOUD_ENDPOINT, {
+      method:"POST",
+      headers: { "Content-Type":"application/json" },  // 明确 JSON
+      body: JSON.stringify(rec)
+    });
+    const txt = await resp.text();
+    console.log("[GAS] status:", resp.status, "resp:", txt);
   }catch(e){
     console.warn("上传云端失败：", e);
   }
