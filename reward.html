@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>第四关 · 奖励视频</title>
+<style>
+:root{ --bg:#0b1220; --card:#0f172a; --ink:#e5e7eb; --muted:#9ca3af; --brand:#60a5fa;}
+*{box-sizing:border-box} body{margin:0; font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei";}
+.wrap{max-width:980px; margin:0 auto; padding:18px;}
+.card{background:var(--card); color:var(--ink); border-radius:16px; padding:18px; box-shadow:0 10px 30px rgba(0,0,0,.25); margin-top:16px}
+h1{margin:0 0 10px}
+.note{font-size:14px; color:var(--muted); margin:6px 0 12px}
+video{width:100%; border-radius:12px; background:#000}
+.btn{display:inline-block; background:var(--brand); color:#08223c; font-weight:700; padding:10px 14px; border-radius:12px; border:0; cursor:pointer}
+.btn.ghost{background:#0b1220; color:#fff; border:1px solid #374151}
+.row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>第四关 · 奖励视频</h1>
+    <div class="note">恭喜通关！这是你的皮影戏小视频奖励。若无法自动播放，请点播放按钮。</div>
+    <video id="rewardVideo" controls playsinline webkit-playsinline preload="metadata" poster="皮影_学生表演.jpg">
+      <source src="piying_reward.mp4" type="video/mp4"/>
+      您的浏览器不支持视频播放，请使用现代浏览器或下载视频观看。
+    </video>
+    <div class="row" style="margin-top:10px">
+      <button id="play" class="btn">▶︎ 播放</button>
+      <button id="restart" class="btn ghost">↺ 重看</button>
+      <span id="status" class="note">状态：等待播放</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const v = document.getElementById('rewardVideo');
+const statusEl = document.getElementById('status');
+
+function setStatus(txt){ statusEl.textContent = '状态：' + txt; }
+
+document.getElementById('play').onclick = ()=> {
+  v.play().then(()=>setStatus('正在播放')).catch(()=>setStatus('需用户交互，已显示播放控件'));
+};
+document.getElementById('restart').onclick = ()=> { v.currentTime=0; v.play(); };
+
+v.addEventListener('canplay', ()=> setStatus('可播放'));
+v.addEventListener('play',    ()=> setStatus('正在播放'));
+v.addEventListener('pause',   ()=> setStatus('已暂停'));
+v.addEventListener('ended',   ()=> setStatus('播放结束，感谢观看！'));
+
+(async()=>{ try{ await v.play(); }catch(e){ /* 自动播放可能被拦截，留给按钮 */ } })();
+</script>
+</body>
+</html>
