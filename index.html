@@ -49,7 +49,7 @@ th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
   <!-- 顶部 -->
   <div class="card">
     <h1>腾冲皮影戏 · 非遗探秘闯关</h1>
-    <p class="muted">①制作步骤（顺序） → ②词条学习（10条） → ③记忆配对（从词库随机抽6条，12张卡） → ④奖励视频。通关后生成勋章并计入排行榜，且自动上传到 Google 表格。</p>
+    <p class="muted">①制作步骤（顺序） → ②词条学习（10条） → ③记忆配对（从词库随机抽6条，12张卡） → ④奖励视频。通关后：生成勋章、计入本机排行榜，并自动上传到 Google 表格。</p>
     <div class="topbar">
       <label>昵称 <input id="name" placeholder="如：五（三）-29"></label>
       <label>年级 <select id="grade"><option value="">请选择</option><option>一年级</option><option>二年级</option><option>三年级</option><option>四年级</option><option>五年级</option><option>六年级</option></select></label>
@@ -63,14 +63,15 @@ th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
     </div>
   </div>
 
-  <!-- 展板 -->
+  <!-- 开场展板 -->
   <div class="card" id="panel-intro">
     <h2>开场展板</h2>
     <div class="gallery">
       <div class="span2"><img src="校徽.png" alt="学校标识"><div class="cap">云南师大附小：非遗进校园，皮影戏“看得见、玩得起、说得出”。</div></div>
       <div><img src="皮影_树下对坐.jpg" alt="皮影表演·树下对坐"><div class="cap">影窗（白幕）+背后灯光，演员在幕后操杆，观众在幕前看“影”。</div></div>
-      <div><img src="皮影_学生自制.jpg" alt="学生自制皮影"><div class="cap">靠子传统多用牛皮雕刻；校园体验可用卡纸/PP片了解结构与连接。</div></div>
+      <div><img src="皮影_学生自制.jpg" alt="学生自制皮影"><div class="cap">靠子多用牛皮雕刻；校园体验可用卡纸/PP片了解结构与连接。</div></div>
       <div><img src="皮影_学生表演.jpg" alt="学生表演皮影"><div class="cap">细竹杆联动关节；锣鼓唢呐配合节奏，腾冲有东腔/西腔等风格。</div></div>
+      <div class="span2"><img src="龙.jpg" alt="腾冲皮影·龙"><div class="cap">腾冲皮影戏特色形象：龙。</div></div>
     </div>
   </div>
 
@@ -108,11 +109,11 @@ th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
     <h2>第四关 · 奖励视频</h2>
     <div class="videoWrap">
       <video id="rewardVideo" controls playsinline webkit-playsinline preload="metadata" poster="皮影_学生表演.jpg">
-        <source src="piying_reward.mp4?v=9" type="video/mp4"/>
+        <source src="piying_reward.mp4?v=10" type="video/mp4"/>
       </video>
       <div id="fallback" class="muted" style="margin-top:8px;display:none">
         视频加载遇到问题。你可以
-        <a href="piying_reward.mp4?v=9" download style="color:#60a5fa">点此下载</a> 或刷新重试（建议Wi-Fi/无痕窗口）。
+        <a href="piying_reward.mp4?v=10" download style="color:#60a5fa">点此下载</a> 或刷新重试（建议Wi-Fi/无痕窗口）。
       </div>
     </div>
     <div class="topbar" style="margin-top:10px">
@@ -132,12 +133,12 @@ th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
 </div>
 
 <script>
-/*** ←←← 你的 Google 表格 Apps Script 接口（已替换为新的 /exec） ***/
-const CLOUD_ENDPOINT = "https://script.google.com/macros/s/AKfycbwTwxRApxbpkTGaANhBv40vUBjR2JaRYjge0uleyNP-VHdf3x9AVhqNfvcpFLE73Bsz/exec";
+/*** 你的 Google 表格 Apps Script 接口（最新 /exec） ***/
+const CLOUD_ENDPOINT = "https://script.google.com/macros/s/AKfycbyT_J0-fRQ4EAzVjGW1glN_fGbUakZ1Q04VhBuRaQyFMgEf3OoeNFNw2Vkf6KmRoOk5/exec";
 
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
-let timer=null,timeSec=0,started=false,v_seen=false;
-const STORAGE_KEY="tengchong_heritage_cloud_v3";
+let timer=null,timeSec=0,v_seen=false;
+const STORAGE_KEY="tengchong_heritage_cloud_v4";
 
 function startTimer(){timeSec=0;$("#time").textContent="0";timer=setInterval(()=>{$("#time").textContent=++timeSec;},1000)}
 function stopTimer(){if(timer){clearInterval(timer);timer=null}}
@@ -309,7 +310,7 @@ $("#finalize").onclick=async ()=>{
   try{
     const resp = await fetch(CLOUD_ENDPOINT, {
       method:"POST",
-      headers: { "Content-Type":"application/json" },  // 明确 JSON
+      headers: { "Content-Type":"application/json" },
       body: JSON.stringify(rec)
     });
     const txt = await resp.text();
