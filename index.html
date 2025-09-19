@@ -3,64 +3,43 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>腾冲皮影戏 · 制作步骤 + 词条学习 + 记忆配对</title>
+<title>腾冲皮影戏 · 四关简洁版</title>
 <style>
-:root{ --bg:#0b1220; --card:#0f172a; --ink:#e5e7eb; --muted:#9ca3af; --brand:#60a5fa; --ok:#34d399; --warn:#f59e0b;}
-*{box-sizing:border-box} body{margin:0; font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",Arial; background:var(--bg); color:var(--ink);}
-.wrap{max-width:1100px; margin:0 auto; padding:18px;}
-.card{background:var(--card); border-radius:16px; padding:18px; box-shadow:0 10px 30px rgba(0,0,0,.25); margin-bottom:14px;}
-h1,h2{margin:0 0 12px} .muted{color:var(--muted); font-size:14px}
-input,select,button{border-radius:12px; border:1px solid #1f2937; padding:10px 12px; background:#0b1220; color:#fff;}
-button{background:var(--brand); color:#09111f; font-weight:700; cursor:pointer; border:none}
-button.ghost{background:#0b1220; color:#fff; border:1px solid #374151}
-button:disabled{opacity:.5; cursor:not-allowed}
-.topbar{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
-.badge{font-size:12px; background:#0b1220; border:1px solid #374151; padding:2px 10px; border-radius:999px; color:#cbd5e1}
-.progress{display:flex; gap:4px; align-items:center}
-.dot{width:10px; height:10px; border-radius:50%; background:#1f2937; display:inline-block}
-.dot.on{background:linear-gradient(180deg,#a7f3d0,#10b981)}
-.gallery{display:grid; grid-template-columns:1fr 1fr; gap:10px}
-.gallery img{width:100%; height:240px; object-fit:cover; border-radius:12px; border:1px solid #374151}
-.gallery .span2{grid-column:1 / span 2; height:280px}
-.cap{font-size:12px; color:#cbd5e1; margin:6px 2px 0}
-
-/* L1 制作步骤（顺序拼图） */
-.timeline{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:10px}
-.stepSlot{min-height:72px; display:flex; align-items:center; justify-content:center; border:2px dashed #374151; border-radius:12px; color:#94a3b8; background:#0b1220}
-.stepSlot.locked{opacity:.6; filter:grayscale(30%);}
-.stepSlot.active{border-color:#3b82f6; box-shadow:0 0 0 2px rgba(59,130,246,.3) inset;}
-.part{user-select:none; margin:8px 0; padding:10px 12px; background:#0f172a; border:1px solid #1f2937; border-radius:12px; cursor:grab}
-.partsBox{background:#0b1220; border:1px solid #374151; border-radius:16px; padding:12px}
-.good{outline:2px solid var(--ok)} .warn{outline:2px solid var(--warn)}
-
-/* L2 词条学习 */
-.grid{display:grid; grid-template-columns:repeat(2,1fr); gap:12px}
-.info{background:#0b1220; border:1px solid #374151; border-radius:14px; padding:12px; cursor:pointer}
-.info .title{font-weight:700; margin-bottom:6px}
-.info .content{display:none; font-size:13px; color:#cbd5e1}
+:root{--bg:#0b1220;--card:#0f172a;--ink:#e5e7eb;--muted:#9ca3af;--brand:#60a5fa;--ok:#34d399;--warn:#f59e0b}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei";background:var(--bg);color:var(--ink)}
+.wrap{max-width:1100px;margin:0 auto;padding:18px}
+.card{background:var(--card);border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.25);margin-bottom:14px}
+h1,h2{margin:0 0 12px}.muted{color:var(--muted);font-size:14px}
+input,select,button{border-radius:12px;border:1px solid #1f2937;padding:10px 12px;background:#0b1220;color:#fff}
+button{background:var(--brand);color:#09111f;font-weight:700;cursor:pointer;border:none}
+button.ghost{background:#0b1220;color:#fff;border:1px solid #374151}
+button:disabled{opacity:.5;cursor:not-allowed}
+.topbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.badge{font-size:12px;background:#0b1220;border:1px solid #374151;padding:2px 10px;border-radius:999px;color:#cbd5e1}
+.progress{display:flex;gap:4px;align-items:center}.dot{width:10px;height:10px;border-radius:50%;background:#1f2937}.dot.on{background:linear-gradient(180deg,#a7f3d0,#10b981)}
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gallery img{width:100%;height:240px;object-fit:cover;border-radius:12px;border:1px solid #374151}
+.gallery .span2{grid-column:1/span 2;height:280px}
+.cap{font-size:12px;color:#cbd5e1;margin:6px 2px 0}
+.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px}
+.stepSlot{min-height:72px;display:flex;align-items:center;justify-content:center;border:2px dashed #374151;border-radius:12px;color:#94a3b8;background:#0b1220}
+.stepSlot.locked{opacity:.6;filter:grayscale(30%)}.stepSlot.active{border-color:#3b82f6;box-shadow:0 0 0 2px rgba(59,130,246,.3) inset}
+.part{user-select:none;margin:8px 0;padding:10px 12px;background:#0f172a;border:1px solid #1f2937;border-radius:12px;cursor:grab}
+.partsBox{background:#0b1220;border:1px solid #374151;border-radius:16px;padding:12px}
+.good{outline:2px solid var(--ok)}.warn{outline:2px solid var(--warn)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.info{background:#0b1220;border:1px solid #374151;border-radius:14px;padding:12px;cursor:pointer}
+.info .title{font-weight:700;margin-bottom:6px}.info .content{display:none;font-size:13px;color:#cbd5e1}
 .info.learned{outline:2px solid var(--ok)}
-
-/* L3 记忆配对（5对） */
-.board{--cols:4; display:grid; grid-template-columns:repeat(var(--cols),1fr); gap:10px}
-.cardtile{height:90px; background:#0b1220; border:1px solid #374151; border-radius:12px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:700}
+.board{--cols:4;display:grid;grid-template-columns:repeat(var(--cols),1fr);gap:10px}
+.cardtile{height:90px;background:#0b1220;border:1px solid #374151;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700}
 .cardtile.open{background:linear-gradient(135deg,#0b1220,#0f172a)}
-table{width:100%; border-collapse:collapse; font-size:14px; margin-top:8px}
-th,td{border-bottom:1px solid #223; padding:8px; text-align:left}
-.footer{font-size:12px; color:#9ca3af; text-align:center; margin-top:8px}
-.note{font-size:13px; color:#cbd5e1; background:#0b1220; border:1px dashed #374151; padding:10px 12px; border-radius:12px}
-
-/* —— 音效/动画增强 —— */
-@keyframes shakeX {
-  10%, 90% { transform: translateX(-2px); }
-  20%, 80% { transform: translateX(4px); }
-  30%, 50%, 70% { transform: translateX(-6px); }
-  40%, 60% { transform: translateX(6px); }
-}
-.shake { animation: shakeX .35s ease; }
-.flash {
-  box-shadow: 0 0 0 2px rgba(52,211,153,.45) inset, 0 0 16px rgba(52,211,153,.35);
-  transition: box-shadow .4s;
-}
+.videoWrap{background:#0b1220;border:1px solid #374151;border-radius:16px;padding:12px}
+video{width:100%;border-radius:12px;background:#000}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}
+th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
+.footer{font-size:12px;color:#9ca3af;text-align:center;margin-top:8px}
+@keyframes shakeX{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-6px)}40%,60%{transform:translateX(6px)}}.shake{animation:shakeX .35s ease}
 </style>
 </head>
 <body>
@@ -68,326 +47,129 @@ th,td{border-bottom:1px solid #223; padding:8px; text-align:left}
 
   <!-- 顶部 -->
   <div class="card">
-    <h1>腾冲皮影戏 · 制作步骤 + 词条学习 + 记忆配对</h1>
-    <p class="muted">①制作步骤（按顺序放置） → ②学习10条词条 → ③记忆配对（5对）。完成后自动下载CSV与勋章。</p>
+    <h1>腾冲皮影戏 · 四关简洁版</h1>
+    <p class="muted">①制作步骤（顺序） → ②词条（10条） → ③配对（5对） → ④奖励视频。视频播放后才可领取勋章与CSV。</p>
     <div class="topbar">
       <label>昵称 <input id="name" placeholder="如：五（三）-29"></label>
       <label>年级 <select id="grade"><option value="">请选择</option><option>一年级</option><option>二年级</option><option>三年级</option><option>四年级</option><option>五年级</option><option>六年级</option></select></label>
       <label>班级 <input id="klass" placeholder="如：五（三）班"></label>
       <label>同意匿名数据 <select id="consent"><option>是</option><option>否</option></select></label>
       <span class="badge">用时：<span id="time">0</span>s</span>
-      <div class="progress"><span class="badge">进度</span><span class="dot" id="d1"></span><span class="dot" id="d2"></span><span class="dot" id="d3"></span></div>
+      <div class="progress"><span class="badge">进度</span><span class="dot" id="d1"></span><span class="dot" id="d2"></span><span class="dot" id="d3"></span><span class="dot" id="d4"></span></div>
       <button id="start">开始</button>
       <button id="reset" class="ghost" disabled>重来</button>
       <button id="export" class="ghost">导出全部CSV</button>
     </div>
   </div>
 
-  <!-- 展板：4张图 -->
+  <!-- 展板 -->
   <div class="card" id="panel-intro">
     <h2>开场展板</h2>
     <div class="gallery">
-      <div class="span2">
-        <img src="校徽.png" alt="学校标识">
-        <div class="cap">云南师大附小：非遗进校园，皮影戏“看得见、玩得起、说得出”。</div>
-      </div>
-      <div>
-        <img src="皮影_树下对坐.jpg" alt="皮影表演·树下对坐">
-        <div class="cap">影窗（白幕）+背后灯光，演员在幕后操杆，观众在幕前看“影”。</div>
-      </div>
-      <div>
-        <img src="皮影_学生自制.jpg" alt="学生自制皮影">
-        <div class="cap">靠子传统多用牛皮雕刻；校园体验可用卡纸/PP片了解结构与连接。</div>
-      </div>
-      <div>
-        <img src="皮影_学生表演.jpg" alt="学生表演皮影">
-        <div class="cap">细竹杆联动关节；锣鼓唢呐配合节奏，腾冲有东腔/西腔等风格。</div>
-      </div>
+      <div class="span2"><img src="校徽.png" alt="学校标识"><div class="cap">云南师大附小：非遗进校园，皮影戏“看得见、玩得起、说得出”。</div></div>
+      <div><img src="皮影_树下对坐.jpg" alt="皮影表演·树下对坐"><div class="cap">影窗（白幕）+背后灯光，演员在幕后操杆，观众在幕前看“影”。</div></div>
+      <div><img src="皮影_学生自制.jpg" alt="学生自制皮影"><div class="cap">靠子传统多用牛皮雕刻；校园体验可用卡纸/PP片了解结构与连接。</div></div>
+      <div><img src="皮影_学生表演.jpg" alt="学生表演皮影"><div class="cap">细竹杆联动关节；锣鼓唢呐配合节奏，腾冲有东腔/西腔等风格。</div></div>
     </div>
-    <p class="note">任务：①制作步骤（顺序） → ②学习10条 → ③配对5对</p>
   </div>
 
-  <!-- L1 制作步骤（顺序拼图） -->
+  <!-- 第一关 -->
   <div class="card" id="panel-l1" style="display:none">
-    <h2>关卡一 · 如何制作一个皮影（顺序拼图）</h2>
-    <p class="muted">请按顺序把<strong>下一步</strong>拖到对应槽位（只能放对当前这一步）。</p>
+    <h2>第一关 · 制作步骤（顺序拼图）</h2>
+    <p class="muted">把<strong>下一步</strong>拖入对应槽位（只能放对当前这一步）。</p>
     <div class="timeline" id="slots">
-      <div class="stepSlot" data-index="0">第1步</div>
-      <div class="stepSlot locked" data-index="1">第2步</div>
-      <div class="stepSlot locked" data-index="2">第3步</div>
-      <div class="stepSlot locked" data-index="3">第4步</div>
-      <div class="stepSlot locked" data-index="4">第5步</div>
-      <div class="stepSlot locked" data-index="5">第6步</div>
+      <div class="stepSlot" data-index="0">第1步</div><div class="stepSlot locked" data-index="1">第2步</div><div class="stepSlot locked" data-index="2">第3步</div>
+      <div class="stepSlot locked" data-index="3">第4步</div><div class="stepSlot locked" data-index="4">第5步</div><div class="stepSlot locked" data-index="5">第6步</div>
     </div>
     <div class="partsBox" id="parts"></div>
-    <div class="topbar" style="margin-top:8px">
-      <button id="to-l2" class="ghost" disabled>步骤完成，进入词条学习 ➜</button>
-    </div>
+    <div class="topbar" style="margin-top:8px"><button id="to-l2" class="ghost" disabled>进入第二关 ➜</button></div>
   </div>
 
-  <!-- L2 词条学习（10条全部点亮） -->
+  <!-- 第二关 -->
   <div class="card" id="panel-l2" style="display:none">
-    <h2>关卡二 · 学习知识词条（点击展开）</h2>
-    <p class="muted">点击每张卡片查看小知识，全部点亮后可进入记忆配对。</p>
+    <h2>第二关 · 知识词条（10条）</h2>
+    <p class="muted">点击卡片查看小知识，全部点亮后进入第三关。</p>
     <div class="grid" id="infogrid"></div>
-    <div class="topbar" style="margin-top:8px">
-      <button id="to-l3" class="ghost" disabled>已点亮10条，开始配对挑战 ➜</button>
-    </div>
+    <div class="topbar" style="margin-top:8px"><button id="to-l3" class="ghost" disabled>开始第三关 ➜</button></div>
   </div>
 
-  <!-- L3 记忆配对（5对） -->
+  <!-- 第三关 -->
   <div class="card" id="panel-l3" style="display:none">
-    <h2>关卡三 · 记忆配对（5对）</h2>
-    <p class="muted">从10条词条里随机抽5条，配成10张卡；步数越少越棒！</p>
+    <h2>第三关 · 记忆配对（5对）</h2>
+    <p class="muted">从10条中随机抽5条，配成10张卡；步数越少越棒！</p>
     <div class="topbar"><span class="badge">步数：<span id="moves3">0</span></span></div>
     <div class="board" id="board3"></div>
-    <div class="topbar" style="margin-top:8px">
-      <button id="finish" disabled>🎉 完成并生成CSV</button>
+    <div class="topbar" style="margin-top:8px"><button id="to-l4" disabled>🎬 去看奖励小视频 ➜</button></div>
+  </div>
+
+  <!-- 第四关：奖励视频 -->
+  <div class="card" id="panel-l4" style="display:none">
+    <h2>第四关 · 奖励视频</h2>
+    <div class="videoWrap">
+      <video id="rewardVideo" controls playsinline webkit-playsinline preload="metadata" poster="皮影_学生表演.jpg">
+        <source src="piying_reward.mp4?v=5" type="video/mp4"/>
+      </video>
+      <div id="fallback" class="muted" style="margin-top:8px;display:none">
+        视频加载遇到问题。你可以
+        <a href="piying_reward.mp4?v=5" download style="color:#60a5fa">点此下载</a> 或刷新重试（建议Wi-Fi/无痕窗口）。
+      </div>
+    </div>
+    <div class="topbar" style="margin-top:10px">
+      <button id="finalize" class="ghost" disabled>🏅 完成并下载CSV + 勋章</button>
     </div>
   </div>
 
   <!-- 排行榜 -->
   <div class="card">
     <h2>排行榜（本机）</h2>
-    <table id="boardT">
-      <thead><tr><th>昵称</th><th>年级</th><th>班级</th><th>用时(s)</th><th>L1完成</th><th>L2点亮</th><th>L3步数</th><th>时间</th></tr></thead>
-      <tbody></tbody>
-    </table>
+    <table id="boardT"><thead><tr><th>昵称</th><th>年级</th><th>班级</th><th>用时(s)</th><th>L1</th><th>L2</th><th>L3步数</th><th>看视频</th><th>时间</th></tr></thead><tbody></tbody></table>
   </div>
 
   <div class="footer">© 校园非遗教育 · 数据保存在本机浏览器 · 可导出CSV汇总</div>
 </div>
 
 <script>
-const $=s=>document.querySelector(s); const $$=s=>Array.from(document.querySelectorAll(s));
-let timer=null,timeSec=0,started=false, l1_ok=false, l2_ok=false;
-const STORAGE_KEY="tengchong_three_stages_seq_sfx_v1";
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+let timer=null,timeSec=0,started=false,v_seen=false;
+const FLOW=["干牛皮","雕刻","涂色","连接件","安装操杆","兵器/配件"];
+const FACTS={"影窗":"白幕载体，灯光自幕后透过，观众在幕前看“影”。","东腔":"腾冲地方唱腔之一，旋律与念白有地域风格。","西腔":"与东腔并称，多见于西部乡镇，腔调有别。","锣鼓":"与唢呐等管乐配合，烘托节奏与场面情绪。","唢呐":"音色高亢嘹亮，常用于渲染气氛与转场。","靠子":"皮影人物/道具本体，多用牛皮雕刻上色。","操杆":"细竹杆/木杆联动关节，是动作控制的关键。","傣族舞台":"部分地区与傣族歌舞同场演出，融入多民族风情。","故事题材":"多取材《三国》《西游》，也有本地传说如“腾越风云”。","旅游演出":"常与夜市、古镇夜游结合，面向游客传播。"};
+const STORAGE_KEY="tengchong_four_min_v1";
+function setDot(n){[$("#d1"),$("#d2"),$("#d3"),$("#d4")].forEach((d,i)=>d.classList.toggle("on",i<n));}
+function showPanel(id){["panel-intro","panel-l1","panel-l2","panel-l3","panel-l4"].forEach(pid=>$("#"+pid).style.display=(pid===id?"block":"none"))}
+function startTimer(){timeSec=0;$("#time").textContent="0";timer=setInterval(()=>{$("#time").textContent=++timeSec;},1000)}
+function stopTimer(){if(timer){clearInterval(timer);timer=null}}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function loadRecords(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]")}catch{return[]}}
+function saveRecord(r){const all=loadRecords();all.unshift(r);localStorage.setItem(STORAGE_KEY,JSON.stringify(all.slice(0,200)))}
+function refreshBoard(){const tb=$("#boardT tbody");tb.innerHTML="";loadRecords().slice(0,20).forEach(r=>{const tr=document.createElement("tr");tr.innerHTML=`<td>${r.name||""}</td><td>${r.grade||""}</td><td>${r.class||""}</td><td>${r.time_sec||0}</td><td>${r.l1_ok?"✓":""}</td><td>${r.l2_ok?"✓":""}</td><td>${r.l3_moves??""}</td><td>${r.v_seen?"✓":""}</td><td>${r.timestamp||""}</td>`;tb.appendChild(tr)})}
+function downloadCSV(fn,rows,header){const out=[header.join(",")];rows.forEach(r=>out.push(header.map(k=>String((r[k]??"")).replace(/,/g," ")).join(",")));const blob=new Blob([out.join("\n")],{type:"text/csv;charset=utf-8;"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=fn;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)}
+function medalPNG({name,grade,klass,time_sec,moves}){const c=document.createElement("canvas");c.width=900;c.height=600;const x=c.getContext("2d");const g=x.createLinearGradient(0,0,900,600);g.addColorStop(0,"#0b1220");g.addColorStop(1,"#12223f");x.fillStyle=g;x.fillRect(0,0,900,600);x.beginPath();x.arc(450,220,100,0,Math.PI*2);x.closePath();const rg=x.createRadialGradient(450,220,20,450,220,110);rg.addColorStop(0,"#34d399");rg.addColorStop(1,"#065f46");x.fillStyle=rg;x.fill();x.fillStyle="#e5e7eb";x.font="bold 54px system-ui";x.textAlign="center";x.fillText("通 关",450,235);x.fillStyle="#93c5fd";x.font="bold 34px system-ui";x.fillText("腾冲皮影戏 · 四关简洁版",450,60);x.fillStyle="#e5e7eb";x.font="24px system-ui";x.fillText(`昵称：${name||"-"}  年级：${grade||"-"}  班级：${klass||"-"}`,450,320);x.fillText(`用时：${time_sec||0}s   L1：✓   L2：✓   L3步数：${moves||0}`,450,360);x.strokeStyle="#3b82f6";x.lineWidth=6;x.strokeRect(24,24,852,552);const url=c.toDataURL("image/png");const a=document.createElement("a");a.href=url;a.download=`皮影戏通关勋章_${name||"匿名"}.png`;document.body.appendChild(a);a.click();a.remove()}
+function finalize(){stopTimer();setDot(4);const rec={timestamp:new Date().toISOString(),name:($("#name").value||"").replace(/,/g," "),grade:$("#grade").value,class:($("#klass").value||"").replace(/,/g," "),time_sec:timeSec,l1_ok:true,l2_ok:true,l3_moves:Number($("#moves3").textContent)||0,v_seen:v_seen};saveRecord(rec);refreshBoard();downloadCSV("腾冲皮影_四关_单条记录.csv",[rec],["timestamp","name","grade","class","time_sec","l1_ok","l2_ok","l3_moves","v_seen"]);medalPNG({name:$("#name").value,grade:$("#grade").value,klass:$("#klass").value,time_sec:timeSec,moves:Number($("#moves3").textContent)||0});alert("🎉 恭喜通关！已生成你的CSV与勋章图片。")}
+document.getElementById("start").onclick=()=>{if($("#grade").value===""||$("#consent").value!=="是"){alert("请先选择年级并同意匿名数据用于教学改进");return} $("#reset").disabled=false;startTimer();setDot(0);showPanel("panel-l1");initL1()}
+document.getElementById("reset").onclick=()=>{stopTimer();$("#time").textContent="0";showPanel("panel-intro");$("#reset").disabled=true}
+document.getElementById("export").onclick=()=>{const all=loadRecords();if(!all.length){alert("暂无记录可导出");return}downloadCSV("腾冲皮影_四关_全部记录.csv",all,["timestamp","name","grade","class","time_sec","l1_ok","l2_ok","l3_moves","v_seen"])}
+document.getElementById("to-l2").onclick=()=>{setDot(1);showPanel("panel-l2");initL2()}
+document.getElementById("to-l3").onclick=()=>{setDot(2);showPanel("panel-l3");initL3()}
+document.getElementById("to-l4").onclick=()=>{setDot(3);showPanel("panel-l4");initL4()}
 
-function startTimer(){timeSec=0;$("#time").textContent="0";timer=setInterval(()=>{timeSec++;$("#time").textContent=timeSec;},1000);}
-function stopTimer(){if(timer){clearInterval(timer);timer=null;}}
-function setDot(n){[$("#d1"),$("#d2"),$("#d3")].forEach((d,i)=>d.classList.toggle("on",i<n));}
-function showPanel(id){["panel-intro","panel-l1","panel-l2","panel-l3"].forEach(pid=>$("#"+pid).style.display=(pid===id?"block":"none"));}
+/* —— L1 —— */
+let current=0;
+function initL1(){current=0;const slots=$$("#slots .stepSlot");slots.forEach((slot,i)=>{slot.textContent=`第${i+1}步`;slot.classList.toggle("locked",i>0);slot.classList.toggle("active",i===0);slot.classList.remove("good","warn");slot.ondragover=e=>e.preventDefault();slot.ondrop=e=>{e.preventDefault();const name=e.dataTransfer.getData("text/plain");const idx=+slot.dataset.index;if(idx===current&&name===FLOW[current]){slot.classList.add("good");slot.textContent=`第${idx+1}步：${name} ✓`;const next=slots[idx+1];if(next){next.classList.remove("locked");next.classList.add("active")}const card=[...$("#parts").children].find(x=>x.dataset.name===name);card&&card.remove();current++;if(current===FLOW.length)$("#to-l2").disabled=false}else{slot.classList.add("warn","shake");setTimeout(()=>slot.classList.remove("shake"),350)}}});const box=$("#parts");box.innerHTML="";shuffle([...FLOW]).forEach(s=>{const el=document.createElement("div");el.className="part";el.textContent=`步骤：${s}`;el.draggable=true;el.dataset.name=s;el.ondragstart=e=>e.dataTransfer.setData("text/plain",s);box.appendChild(el)})}
 
-/* —— 数据集 —— */
-const FLOW=["干牛皮","雕刻","涂色","连接件","安装操杆","兵器/配件"]; // 正确顺序
-const FACTS={ // 10条（无“灯光”“火把节”）
- "影窗":"白幕载体，灯光自幕后透过，观众在幕前看“影”。",
- "东腔":"腾冲地方唱腔之一，旋律与念白有地域风格。",
- "西腔":"与东腔并称，多见于西部乡镇，腔调有别。",
- "锣鼓":"与唢呐等管乐配合，烘托节奏与场面情绪。",
- "唢呐":"音色高亢嘹亮，常用于渲染气氛与转场。",
- "靠子":"皮影人物/道具本体，多用牛皮雕刻上色。",
- "操杆":"细竹杆/木杆联动关节，是动作控制的关键。",
- "傣族舞台":"腾冲部分地区皮影常与傣族歌舞同场演出，融入多民族风情。",
- "故事题材":"多取材于《三国》《西游》，也有本地传说如“腾越风云”。",
- "旅游演出":"常与旅游夜市、古镇夜游结合，成为文化传播方式。"
-};
-function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
-
-/* ===== 音效（WebAudio合成） ===== */
-let audioCtx=null;
-function getCtx(){ if(!audioCtx){ audioCtx=new (window.AudioContext||window.webkitAudioContext)(); } return audioCtx; }
-function beep({freq=880, dur=0.15, type="sine", vol=0.2, decay=0.03}={}){
-  const ctx=getCtx();
-  const o=ctx.createOscillator(), g=ctx.createGain();
-  o.type=type; o.frequency.value=freq;
-  g.gain.value=vol; g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+dur-decay);
-  o.connect(g).connect(ctx.destination);
-  o.start(); o.stop(ctx.currentTime+dur);
-}
-function playGood(){ beep({freq:880,type:"triangle",dur:0.12,vol:0.25}); setTimeout(()=>beep({freq:1200,type:"triangle",dur:0.12,vol:0.22}),90); }
-function playBad(){  beep({freq:200,type:"sawtooth",dur:0.18,vol:0.18}); }
-function playWin(){  [0,120,220,320].forEach((d,i)=> setTimeout(()=>beep({freq:700+ i*150,type:"square",dur:0.12,vol:0.25}), d)); }
-
-/* ===== 轻量彩带 ===== */
-function confettiBurst(times=24){
-  const c=document.createElement("canvas"); c.style.position="fixed"; c.style.inset="0"; c.style.pointerEvents="none"; c.width=innerWidth; c.height=innerHeight; document.body.appendChild(c);
-  const ctx=c.getContext("2d"); const pieces=[];
-  for(let i=0;i<times;i++){
-    pieces.push({x:Math.random()*c.width, y:-20, r:4+Math.random()*6, vy:2+Math.random()*3, vx:(Math.random()*2-1)*2, rot:Math.random()*Math.PI, vr:(Math.random()*.2-.1)});
-  }
-  let t=0; const id=setInterval(()=>{ t++; ctx.clearRect(0,0,c.width,c.height);
-    pieces.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.rot+=p.vr; ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot);
-      ctx.fillStyle=`hsl(${(p.x+p.y)%360},85%,60%)`; ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r); ctx.restore(); });
-    if(t>120) { clearInterval(id); c.remove(); }
-  }, 16);
-}
-
-/* ===== 通关电子勋章（PNG） ===== */
-function makeMedalPNG({name, grade, klass, time_sec, steps, moves}){
-  const canvas=document.createElement("canvas"); canvas.width=900; canvas.height=600;
-  const ctx=canvas.getContext("2d");
-  const g=ctx.createLinearGradient(0,0,900,600); g.addColorStop(0,"#0b1220"); g.addColorStop(1,"#12223f"); ctx.fillStyle=g; ctx.fillRect(0,0,900,600);
-  ctx.beginPath(); ctx.arc(450,220,100,0,Math.PI*2); ctx.closePath();
-  const rg=ctx.createRadialGradient(450,220,20,450,220,110); rg.addColorStop(0,"#34d399"); rg.addColorStop(1,"#065f46"); ctx.fillStyle=rg; ctx.fill();
-  ctx.fillStyle="#e5e7eb"; ctx.font="bold 54px system-ui"; ctx.textAlign="center"; ctx.fillText("通 关", 450, 235);
-  ctx.fillStyle="#93c5fd"; ctx.font="bold 34px system-ui"; ctx.fillText("腾冲皮影戏 · 制作步骤 + 词条学习 + 记忆配对", 450, 60);
-  ctx.fillStyle="#e5e7eb"; ctx.font="24px system-ui";
-  ctx.fillText(`昵称：${name||"-"}  年级：${grade||"-"}  班级：${klass||"-"}`, 450, 320);
-  ctx.fillText(`总用时：${time_sec||0}s   L1步骤：${steps||"✓"}   L3步数：${moves||0}`, 450, 360);
-  ctx.fillStyle="#9ca3af"; ctx.font="20px system-ui"; ctx.fillText(`云南师大附小 · 非遗进校园`, 450, 400);
-  ctx.strokeStyle="#3b82f6"; ctx.lineWidth=6; ctx.strokeRect(24,24,900-48,600-48);
-  const url=canvas.toDataURL("image/png");
-  const a=document.createElement("a"); a.href=url; a.download=`皮影戏通关勋章_${name||"匿名"}.png`; document.body.appendChild(a); a.click(); a.remove();
-}
-
-/* ===== L1 制作步骤（顺序判定 + 底部随机） ===== */
-let currentStepIndex=0;
-function initL1(){
-  l1_ok=false; currentStepIndex=0;
-  $$("#slots .stepSlot").forEach((slot,i)=>{
-    slot.textContent = `第${i+1}步`;
-    slot.classList.toggle("locked", i>0);
-    slot.classList.toggle("active", i===0);
-    slot.classList.remove("good","warn");
-    slot.addEventListener("dragover", e=> e.preventDefault());
-    slot.addEventListener("drop", e=>{
-      e.preventDefault();
-      const name=e.dataTransfer.getData("text/plain");
-      const idx = Number(slot.dataset.index);
-      if(idx===currentStepIndex && name===FLOW[currentStepIndex]){
-        slot.classList.add("good","flash"); setTimeout(()=>slot.classList.remove("flash"),400);
-        slot.textContent = `第${idx+1}步：${name} ✓`;
-        playGood();
-        slot.classList.remove("active");
-        const next = $(`#slots .stepSlot[data-index="${idx+1}"]`);
-        if(next){ next.classList.remove("locked"); next.classList.add("active"); }
-        const partEl=Array.from($("#parts").children).find(x=>x.dataset && x.dataset.name===name);
-        if(partEl) partEl.remove();
-        currentStepIndex++;
-        if(currentStepIndex===FLOW.length){ $("#to-l2").disabled=false; l1_ok=true; }
-      }else{
-        slot.classList.add("warn","shake"); setTimeout(()=>slot.classList.remove("shake"),350);
-        playBad();
-      }
-    });
-  });
-  const parts=$("#parts"); parts.innerHTML="";
-  shuffle([...FLOW]).forEach(step=>{
-    const el=document.createElement("div"); el.className="part"; el.textContent=`步骤：${step}`;
-    el.draggable=true; el.dataset.name=step;
-    el.addEventListener("dragstart", e=> e.dataTransfer.setData("text/plain", step));
-    parts.appendChild(el);
-  });
-}
-
-/* ===== L2 词条学习（需全部点亮） ===== */
+/* —— L2 —— */
 let learned={};
-function initL2(){
-  l2_ok=false; learned={};
-  const grid=$("#infogrid"); grid.innerHTML="";
-  Object.keys(FACTS).forEach(key=>{
-    const div=document.createElement("div"); div.className="info"; div.dataset.key=key;
-    div.innerHTML=`<div class="title">${key}</div><div class="content">${FACTS[key]}</div>`;
-    div.addEventListener("click", ()=>{
-      const c=div.querySelector(".content");
-      c.style.display = (c.style.display==="block") ? "none" : "block";
-      if(!div.classList.contains("learned")){ div.classList.add("learned"); learned[key]=true; }
-      const allOk = Object.keys(learned).length === Object.keys(FACTS).length;
-      $("#to-l3").disabled = !allOk;
-      if(allOk){ playGood(); l2_ok=true; }
-    });
-    grid.appendChild(div);
-  });
-}
+function initL2(){learned={};const grid=$("#infogrid");grid.innerHTML="";Object.keys(FACTS).forEach(k=>{const div=document.createElement("div");div.className="info";div.dataset.key=k;div.innerHTML=`<div class="title">${k}</div><div class="content">${FACTS[k]}</div>`;div.onclick=()=>{const c=div.querySelector(".content");c.style.display=(c.style.display==="block")?"none":"block";if(!div.classList.contains("learned")){div.classList.add("learned");learned[k]=true}$("#to-l3").disabled=Object.keys(learned).length!==Object.keys(FACTS).length};grid.appendChild(div)})}
 
-/* ===== L3 记忆配对（5对，从10条随机抽） ===== */
-let deck3=[],matched3=0,flipped3=[],lock3=false,moves3=0;
-function initL3(){
-  matched3=0; flipped3=[]; lock3=false; moves3=0; $("#moves3").textContent="0"; $("#finish").disabled=true;
-  const keys = shuffle(Object.keys(FACTS)).slice(0,5); // 5 条 → 5 对
-  deck3 = shuffle(keys.concat(keys)).map((k,i)=>({id:"m3_"+i, term:k}));
-  const board=$("#board3"); board.innerHTML=""; board.style.setProperty("--cols","4");
-  deck3.forEach(c=>{
-    const t=document.createElement("div"); t.className="cardtile"; t.dataset.term=c.term; t.textContent="翻开";
-    t.addEventListener("click", ()=> flip3(t)); board.appendChild(t);
-  });
-}
-function flip3(t){
-  if(lock3 || t.classList.contains("open")) return;
-  t.classList.add("open"); t.textContent=t.dataset.term; flipped3.push(t);
-  moves3++; $("#moves3").textContent=moves3;
-  if(flipped3.length===2){
-    const [a,b]=flipped3;
-    if(a.dataset.term===b.dataset.term){
-      flipped3=[]; matched3++; playGood();
-      if(matched3===5){
-        $("#finish").disabled=false;
-        playWin(); confettiBurst(36);
-      }
-    }else{
-      lock3=true; setTimeout(()=>{ a.classList.remove("open"); b.classList.remove("open");
-        a.textContent="翻开"; b.textContent="翻开"; flipped3=[]; lock3=false; },600);
-    }
-  }
-}
+/* —— L3 —— */
+let deck=[],flipped=[],lock=false,matched=0,moves=0;
+function initL3(){deck=[];flipped=[];lock=false;matched=0;moves=0;$("#moves3").textContent="0";$("#to-l4").disabled=true;const keys=shuffle(Object.keys(FACTS)).slice(0,5);deck=shuffle(keys.concat(keys)).map((k,i)=>({id:"c"+i,term:k}));const b=$("#board3");b.innerHTML="";deck.forEach(c=>{const t=document.createElement("div");t.className="cardtile";t.dataset.term=c.term;t.textContent="翻开";t.onclick=()=>flip(t);b.appendChild(t)})}
+function flip(t){if(lock||t.classList.contains("open"))return;t.classList.add("open");t.textContent=t.dataset.term;flipped.push(t);$("#moves3").textContent=++moves;if(flipped.length===2){const[a,b]=flipped;if(a.dataset.term===b.dataset.term){flipped=[];matched++;if(matched===5){document.getElementById("to-l4").disabled=false}}else{lock=true;setTimeout(()=>{a.classList.remove("open");b.classList.remove("open");a.textContent="翻开";b.textContent="翻开";flipped=[];lock=false},600)}}}
 
-/* ===== 排行 & CSV ===== */
-function loadRecords(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]"); }catch{ return []; } }
-function saveRecord(rec){ const all=loadRecords(); all.unshift(rec); localStorage.setItem(STORAGE_KEY, JSON.stringify(all.slice(0,200))); }
-function refreshBoard(){
-  const tb=$("#boardT tbody"); tb.innerHTML="";
-  loadRecords().slice(0,20).forEach(r=>{
-    const tr=document.createElement("tr");
-    tr.innerHTML = `<td>${r.name||""}</td><td>${r.grade||""}</td><td>${r.class||""}</td><td>${r.time_sec||0}</td><td>${r.l1_ok?"✓":""}</td><td>${r.l2_ok?"✓":""}</td><td>${r.l3_moves??""}</td><td>${r.timestamp||""}</td>`;
-    tb.appendChild(tr);
-  });
-}
-function downloadCSV(filename, rows, header){
-  const csvRows=[]; csvRows.push(header.join(","));
-  rows.forEach(r=> csvRows.push(header.map(k=> String((r[k]??"")).replace(/,/g," ")).join(",")) );
-  const blob=new Blob([csvRows.join("\n")],{type:"text/csv;charset=utf-8;"}); const url=URL.createObjectURL(blob);
-  const a=document.createElement("a"); a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-}
-
-/* ===== 事件绑定 ===== */
-$("#start").addEventListener("click", ()=>{
-  if(started) return;
-  if($("#grade").value==="" || $("#consent").value!=="是"){ alert("请先选择年级并同意匿名数据用于教学改进"); return; }
-  started=true; setDot(0); $("#reset").disabled=false; startTimer();
-  showPanel("panel-l1"); initL1();
-});
-$("#reset").addEventListener("click", ()=>{
-  stopTimer(); started=false; setDot(0); $("#time").textContent="0";
-  showPanel("panel-intro"); $("#reset").disabled=true;
-});
-$("#export").addEventListener("click", ()=>{
-  const all=loadRecords(); if(!all.length){ alert("暂无记录可导出"); return; }
-  downloadCSV("腾冲皮影_制作词条配对_全部记录.csv", all,
-    ["timestamp","name","grade","class","time_sec","l1_ok","l2_ok","l3_moves"]);
-});
-
-$("#to-l2").addEventListener("click", ()=>{ setDot(1); showPanel("panel-l2"); initL2(); });
-$("#to-l3").addEventListener("click", ()=>{ setDot(2); showPanel("panel-l3"); initL3(); });
-$("#finish").addEventListener("click", ()=>{
-  stopTimer(); setDot(3);
-  const rec={
-    timestamp:new Date().toISOString(),
-    name: ($("#name").value||"").replace(/,/g," "),
-    grade: $("#grade").value,
-    class: ($("#klass").value||"").replace(/,/g," "),
-    time_sec: timeSec,
-    l1_ok: l1_ok,
-    l2_ok: l2_ok,
-    l3_moves: Number($("#moves3").textContent)||0
-  };
-  saveRecord(rec); refreshBoard();
-  downloadCSV("腾冲皮影_制作词条配对_单条记录.csv", [rec],
-    ["timestamp","name","grade","class","time_sec","l1_ok","l2_ok","l3_moves"]);
-  // 电子勋章
-  makeMedalPNG({
-    name: $("#name").value,
-    grade: $("#grade").value,
-    klass: $("#klass").value,
-    time_sec: timeSec,
-    steps: "6/6",
-    moves: Number($("#moves3").textContent)||0
-  });
-  alert("🎉 恭喜通关！已生成你的CSV与勋章图片。");
-});
-
-/* 初始化 */
-refreshBoard(); showPanel("panel-intro");
+/* —— L4 —— */
+function initL4(){v_seen=false;const v=$("#rewardVideo"),fallback=$("#fallback"),btn=$("#finalize");fallback.style.display="none";btn.disabled=true;v.play().catch(()=>{});v.onplay=()=>v_seen=true;v.onended=()=>{btn.disabled=false};v.onerror=()=>{fallback.style.display="block";btn.disabled=false}}
+document.getElementById("finalize").onclick=()=>{const rec={timestamp:new Date().toISOString(),name:($("#name").value||"").replace(/,/g," "),grade:$("#grade").value,class:($("#klass").value||"").replace(/,/g," "),time_sec:timeSec,l1_ok:true,l2_ok:true,l3_moves:Number($("#moves3").textContent)||0,v_seen:v_seen};saveRecord(rec);refreshBoard();downloadCSV("腾冲皮影_四关_单条记录.csv",[rec],["timestamp","name","grade","class","time_sec","l1_ok","l2_ok","l3_moves","v_seen"]);stopTimer();setDot(4);(function medal(){const c=document.createElement("canvas");c.width=900;c.height=300;const x=c.getContext("2d");x.fillStyle="#0b1220";x.fillRect(0,0,900,300);x.fillStyle="#93c5fd";x.font="bold 36px system-ui";x.textAlign="center";x.fillText("恭喜通关！CSV 已下载，可在排行榜查看记录。",450,160);const url=c.toDataURL("image/png");const a=document.createElement("a");a.href=url;a.download="通关提示.png";document.body.appendChild(a);a.click();a.remove()})()}
+/* 顶部按钮初始化 */
+refreshBoard();showPanel("panel-intro");
 </script>
 </body>
 </html>
