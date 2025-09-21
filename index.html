@@ -62,7 +62,7 @@ th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
     </div>
   </div>
 
-  <!-- 开场展板 -->
+  <!-- 开场展板（删除“龙.jpg”） -->
   <div class="card" id="panel-intro">
     <h2>开场展板</h2>
     <div class="gallery">
@@ -70,7 +70,6 @@ th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
       <div><img src="皮影_树下对坐.jpg" alt="皮影表演·树下对坐"><div class="cap">影窗（白幕）+背后灯光，演员在幕后操杆，观众在幕前看“影”。</div></div>
       <div><img src="皮影_学生自制.jpg" alt="学生自制皮影"><div class="cap">靠子多用牛皮雕刻；校园体验可用卡纸/PP片了解结构与连接。</div></div>
       <div><img src="皮影_学生表演.jpg" alt="学生表演皮影"><div class="cap">细竹杆联动关节；锣鼓唢呐配合节奏，腾冲有东腔/西腔等风格。</div></div>
-      <div class="span2"><img src="龙.jpg" alt="腾冲皮影·龙"><div class="cap">腾冲皮影戏特色形象：龙。</div></div>
     </div>
   </div>
 
@@ -120,7 +119,7 @@ th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
     </div>
   </div>
 
-  <!-- 排行榜（用时升序） -->
+  <!-- 排行榜（本机） -->
   <div class="card">
     <h2>排行榜（本机）</h2>
     <p class="muted">按用时从小到大排序；可重复闯关提升名次。</p>
@@ -132,7 +131,7 @@ th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
 </div>
 
 <script>
-/*** —— 云端收集到飞书（你的 vercel 后端） ——  
+/*** —— 飞书收集（你的 vercel 后端） ——  
  * 默认：piying-feishu-backend /api/collect
  * 也支持 ?collect= 覆盖
 ***/
@@ -144,7 +143,7 @@ const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll
 let timer=null,timeSec=0,v_seen=false;
 const STORAGE_KEY="tengchong_heritage_cloud_v4";
 
-/* 从 URL 预填姓名年级班级 */
+/* URL 预填 */
 (function preset(){
   const n = QS.get('name') || '';
   const g = QS.get('grade')|| '';
@@ -308,8 +307,12 @@ function initL4(){
 
 $("#finalize").onclick=async ()=>{
   stopTimer(); setDot(4);
+  const isoNow = new Date().toISOString();
+  const unixNow = Math.floor(Date.now()/1000);
+
+  // 英文键（本地榜单用）
   const rec={
-    timestamp:new Date().toISOString(),
+    timestamp: isoNow,
     name: ($("#name").value||"").replace(/,/g," "),
     grade: $("#grade").value,
     class: ($("#klass").value||"").replace(/,/g," "),
@@ -318,15 +321,26 @@ $("#finalize").onclick=async ()=>{
     v_seen: v_seen
   };
 
+  // 中文键（飞书表头常见写法，含“是/否”与 unix 时间戳）
+  const feishuRec = {
+    "时间戳": unixNow,
+    "昵称": rec.name,
+    "年级": rec.grade,
+    "班级": rec.class,
+    "用时(s)": rec.time_sec,
+    "第三关步数": rec.l3_moves,
+    "是否看视频": rec.v_seen ? "是" : "否"
+  };
+
   // 本地存档 + 榜单
   saveRecord(rec); refreshBoard();
 
-  // —— 上传至飞书收集后端（静默）——
+  // —— 上传至飞书后端：同时带上中英文两份，后台可择一写入 —— 
   try{
     await fetch(COLLECT_ENDPOINT, {
       method:"POST",
       headers: { "Content-Type":"application/json" },
-      body: JSON.stringify(rec)
+      body: JSON.stringify({ ...rec, feishu: feishuRec })
     });
   }catch(e){
     console.warn("飞书收集失败（忽略，不打断流程）：", e);
