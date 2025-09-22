@@ -49,11 +49,12 @@ th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
   <!-- 顶部 -->
   <div class="card">
     <h1>腾冲皮影戏 · 非遗探秘闯关</h1>
-    <p class="muted">①制作步骤（顺序） → ②词条学习（10条） → ③记忆配对（从词库随机抽6条，12张卡） → ④奖励视频。通关后：生成勋章、计入本机排行榜，并自动上传（后台收集）。</p>
+    <p class="muted">①制作步骤（顺序） → ②词条学习（10条） → ③记忆配对（从词库随机抽6条，12张卡） → ④奖励视频。通关后：生成勋章、计入本机排行榜，并自动上报云端。</p>
     <div class="topbar">
-      <label>昵称 <input id="name" placeholder="如：五（三）-29"></label>
+      <label>昵称 <input id="name" placeholder="如：六（3）-29"></label>
       <label>年级 <select id="grade"><option value="">请选择</option><option>一年级</option><option>二年级</option><option>三年级</option><option>四年级</option><option>五年级</option><option>六年级</option></select></label>
-      <label>班级 <input id="klass" placeholder="如：五（三）班"></label>
+      <label>班级 <input id="klass" placeholder="如：六（3）班"></label>
+      <label>同意匿名数据 <select id="consent"><option>是</option><option>否</option></select></label>
       <span class="badge">用时：<span id="time">0</span>s</span>
       <div class="progress"><span class="badge">进度</span><span class="dot" id="d1"></span><span class="dot" id="d2"></span><span class="dot" id="d3"></span><span class="dot" id="d4"></span></div>
       <button id="start">开始</button>
@@ -62,15 +63,14 @@ th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
     </div>
   </div>
 
-  <!-- 开场展板 -->
+  <!-- 开场展板（4 张图） -->
   <div class="card" id="panel-intro">
     <h2>开场展板</h2>
     <div class="gallery">
       <div class="span2"><img src="校徽.png" alt="学校标识"><div class="cap">云南师大附小：非遗进校园，皮影戏“看得见、玩得起、说得出”。</div></div>
       <div><img src="皮影_树下对坐.jpg" alt="皮影表演·树下对坐"><div class="cap">影窗（白幕）+背后灯光，演员在幕后操杆，观众在幕前看“影”。</div></div>
-      <div><img src="皮影_学生自制.jpg" alt="学生自制皮影"><div class="cap">靠子多用牛皮雕刻；校园体验可用卡纸/PP片了解结构与连接。</div></div>
-      <div><img src="皮影_学生表演.jpg" alt="学生表演皮影"><div class="cap">细竹杆联动关节；锣鼓唢呐配合节奏，腾冲有东腔/西腔等风格。</div></div>
-      <div class="span2"><img src="龙.jpg" alt="腾冲皮影·龙"><div class="cap">腾冲皮影戏特色形象：龙。</div></div>
+      <div><img src="皮影_学生自制.jpg" alt="学生自制皮影"><div class="cap">靠子可用卡纸/PP片理解结构与连接方法。</div></div>
+      <div><img src="皮影_学生表演.jpg" alt="学生表演皮影"><div class="cap">细竹杆联动关节；锣鼓唢呐配合节奏。</div></div>
     </div>
   </div>
 
@@ -94,7 +94,7 @@ th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
     <div class="topbar" style="margin-top:8px"><button id="to-l3" class="ghost" disabled>开始第三关 ➜</button></div>
   </div>
 
-  <!-- 第三关：记忆配对（随机6条→12卡） -->
+  <!-- 第三关：记忆配对 -->
   <div class="card" id="panel-l3" style="display:none">
     <h2>第三关 · 记忆配对（12张卡）</h2>
     <p class="muted">从10条词条里随机抽6条，配成12张卡；步数越少越棒！</p>
@@ -112,7 +112,7 @@ th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
       </video>
       <div id="fallback" class="muted" style="margin-top:8px;display:none">
         视频加载遇到问题。你可以
-        <a href="piying_reward.mp4?v=10" download style="color:#60a5fa">点此下载</a> 或刷新重试（建议Wi-Fi/无痕窗口）。
+        <a href="piying_reward.mp4?v=10" download style="color:#60a5fa">点此下载</a> 或刷新重试（建议 Wi-Fi / 无痕窗口）。
       </div>
     </div>
     <div class="topbar" style="margin-top:10px">
@@ -120,7 +120,7 @@ th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
     </div>
   </div>
 
-  <!-- 排行榜（用时升序） -->
+  <!-- 排行榜（本机） -->
   <div class="card">
     <h2>排行榜（本机）</h2>
     <p class="muted">按用时从小到大排序；可重复闯关提升名次。</p>
@@ -128,31 +128,17 @@ th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
     <p class="muted" id="bestHint"></p>
   </div>
 
-  <div class="footer">© 校园非遗教育 · 本页数据存本机，同时后台自动收集（不展示提示）</div>
+  <div class="footer">© 校园非遗教育 · 数据保存在本机浏览器，并自动上报云端</div>
 </div>
 
 <script>
-/*** —— 云端收集到飞书（你的 vercel 后端） ——  
- * 默认：piying-feishu-backend /api/collect
- * 也支持 ?collect= 覆盖
-***/
-const QS = new URLSearchParams(location.search);
-const DEFAULT_COLLECT = "https://piying-feishu-backend.vercel.app/api/collect";
-const COLLECT_ENDPOINT = QS.get("collect") || DEFAULT_COLLECT;
+/*** 云端上报地址：你的 Vercel 后端（已改为飞书写入） ***/
+const CLOUD_ENDPOINT = "https://piying-feishu-backend.vercel.app/api/collect";
 
+/*** 工具与状态 ***/
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 let timer=null,timeSec=0,v_seen=false;
 const STORAGE_KEY="tengchong_heritage_cloud_v4";
-
-/* 从 URL 预填姓名年级班级 */
-(function preset(){
-  const n = QS.get('name') || '';
-  const g = QS.get('grade')|| '';
-  const c = QS.get('class')|| '';
-  if(n) $("#name").value = n;
-  if(g) $("#grade").value = g;
-  if(c) $("#klass").value = c;
-})();
 
 function startTimer(){timeSec=0;$("#time").textContent="0";timer=setInterval(()=>{$("#time").textContent=++timeSec;},1000)}
 function stopTimer(){if(timer){clearInterval(timer);timer=null}}
@@ -170,7 +156,7 @@ const FACTS={
  "靠子":"皮影人物/道具本体，多用牛皮雕刻上色。",
  "操杆":"细竹杆/木杆联动关节，是动作控制的关键。",
  "傣族舞台":"部分地区与傣族歌舞同场演出，融入多民族风情。",
- "故事题材":"多取材《三国》《西游》，也有本地传说如“腾越风云”。",
+ "故事题材":"多取材《三国》《西游》，也有本地传说。",
  "旅游演出":"常与夜市、古镇夜游结合，面向游客传播。"
 };
 
@@ -210,9 +196,8 @@ function medalPNG({name,grade,klass,time_sec,moves}){
   const url=c.toDataURL("image/png"); const a=document.createElement("a"); a.href=url; a.download=`皮影戏通关勋章_${name||"匿名"}.png`; document.body.appendChild(a); a.click(); a.remove();
 }
 
-/* 顶部按钮 */
-$("#start").onclick=()=>{ 
-  if($("#grade").value===""){alert("请先选择年级");return}
+/*** 顶部按钮 ***/
+$("#start").onclick=()=>{ if($("#grade").value===""||$("#consent").value!=="是"){alert("请先选择年级并同意匿名数据用于教学改进");return}
   $("#reset").disabled=false; setDot(0); startTimer(); showPanel("panel-l1"); initL1();
 };
 $("#reset").onclick=()=>{ stopTimer(); $("#time").textContent="0"; showPanel("panel-intro"); $("#reset").disabled=true; };
@@ -223,7 +208,7 @@ $("#to-l2").onclick=()=>{ setDot(1); showPanel("panel-l2"); initL2(); };
 $("#to-l3").onclick=()=>{ setDot(2); showPanel("panel-l3"); initL3(); };
 $("#to-l4").onclick=()=>{ setDot(3); showPanel("panel-l4"); initL4(); };
 
-/* —— L1：顺序拼图 —— */
+/*** L1：顺序拼图 ***/
 let current=0;
 function initL1(){
   current=0;
@@ -252,7 +237,7 @@ function initL1(){
   });
 }
 
-/* —— L2：词条学习（10条） —— */
+/*** L2：词条学习 ***/
 let learned={};
 function initL2(){
   learned={}; const grid=$("#infogrid"); grid.innerHTML="";
@@ -268,11 +253,11 @@ function initL2(){
   });
 }
 
-/* —— L3：记忆配对（随机6条→12卡） —— */
+/*** L3：记忆配对 ***/
 let deck=[],flipped=[],lock=false,matched=0,moves=0;
 function initL3(){
   deck=[];flipped=[];lock=false;matched=0;moves=0; $("#moves3").textContent="0"; $("#to-l4").disabled=true;
-  const keys = shuffle(Object.keys(FACTS)).slice(0,6); // 6 条
+  const keys = shuffle(Object.keys(FACTS)).slice(0,6); // 随机 6 条
   deck = shuffle(keys.concat(keys)).map((k,i)=>({id:"c"+i, term:k}));
   const b=$("#board3"); b.innerHTML=""; b.style.setProperty("--cols","4");
   deck.forEach(c=>{
@@ -295,7 +280,7 @@ function flip(t){
   }
 }
 
-/* —— L4：奖励视频 + 完成（勋章+上传飞书） —— */
+/*** L4：奖励视频 + 完成（云端上报 + 勋章 + CSV） ***/
 function initL4(){
   v_seen=false;
   const v=$("#rewardVideo"), fallback=$("#fallback"), btn=$("#finalize");
@@ -318,31 +303,48 @@ $("#finalize").onclick=async ()=>{
     v_seen: v_seen
   };
 
-  // 本地存档 + 榜单
+  // 本地存档 + 刷新榜单
   saveRecord(rec); refreshBoard();
 
-  // —— 上传至飞书收集后端（静默）——
+  // —— 上报云端（Vercel 后端 → 飞书）——
   try{
-    await fetch(COLLECT_ENDPOINT, {
+    const resp = await fetch(CLOUD_ENDPOINT, {
       method:"POST",
       headers: { "Content-Type":"application/json" },
-      body: JSON.stringify(rec)
+      body: JSON.stringify({
+        ...rec,
+        // 可选：提供「与飞书列名相同」的映射，后端会优先使用
+        feishu:{
+          "昵称": rec.name,
+          "年级": rec.grade,
+          "班级": rec.class,
+          "用时(s)": rec.time_sec,
+          "第三关步数": rec.l3_moves,
+          "是否看视频": rec.v_seen ? "是" : "否",
+          "时间戳": Math.floor(Date.now()/1000)
+        }
+      })
     });
+    const txt = await resp.text();
+    console.log("[collect] status:", resp.status, "resp:", txt);
   }catch(e){
-    console.warn("飞书收集失败（忽略，不打断流程）：", e);
+    console.warn("上传云端失败：", e);
   }
 
-  // 提示 + 勋章 + 单条CSV
+  // 名次提示
   const all=loadRecords(); const rank = all.findIndex(x=>x===rec)+1;
-  alert(`🎉 恭喜通关！\n用时：${rec.time_sec}s\n当前排名：第 ${rank} 名\n记录已保存。`);
+  alert(`🎉 恭喜通关！\n用时：${rec.time_sec}s\n当前排名：第 ${rank} 名\n记录已保存并上传云端。`);
+
+  // 勋章图片
   medalPNG({name:rec.name,grade:rec.grade,klass:rec.class,time_sec:rec.time_sec,moves:rec.l3_moves});
 
+  // 单条 CSV
   const header=["timestamp","name","grade","class","time_sec","l3_moves","v_seen"];
   const blob=new Blob([[header.join(",")], [header.map(k=>String((rec[k]??"")).replace(/,/g," ")).join(",")]].join("\n"), {type:"text/csv;charset=utf-8;"});
   const url=URL.createObjectURL(blob); const a=document.createElement("a"); a.href=url; a.download="腾冲皮影_单条记录.csv"; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
 };
 
-/* 初始化 */
+/*** 初始化 ***/
 refreshBoard(); showPanel("panel-intro");
 </script>
 </body>
