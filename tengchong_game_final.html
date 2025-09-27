@@ -17,7 +17,7 @@ button{background:var(--brand);color:#09111f;font-weight:700;cursor:pointer;bord
 button.ghost{background:#0b1220;color:#fff;border:1px solid #374151}
 button:disabled{opacity:.5;cursor:not-allowed}
 .badge{font-size:12px;background:#0b1220;border:1px solid #374151;padding:2px 10px;border-radius:999px;color:#cbd5e1}
-.progress{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.progress{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 .dot{width:10px;height:10px;border-radius:50%;background:#1f2937}
 .dot.on{background:linear-gradient(180deg,#a7f3d0,#10b981)}
 .dot.cloud{width:8px;height:8px;margin-left:6px}
@@ -60,10 +60,7 @@ th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
     <p class="muted">①制作步骤 → ②词条学习（10条） → ③记忆配对（随机 6 条，12 张卡） → ④奖励视频。通关后自动上报云端（飞书）。</p>
     <div class="progress">
       <label>昵称 <input id="name" placeholder="如：六（3）-29"></label>
-      <label>年级 <select id="grade">
-        <option value="">请选择</option><option>一年级</option><option>二年级</option><option>三年级</option>
-        <option>四年级</option><option>五年级</option><option>六年级</option>
-      </select></label>
+      <label>年级 <select id="grade"><option value="">请选择</option><option>一年级</option><option>二年级</option><option>三年级</option><option>四年级</option><option>五年级</option><option>六年级</option></select></label>
       <label>班级 <input id="klass" placeholder="如：六（3）班"></label>
       <label>同意匿名数据 <select id="consent"><option>是</option><option>否</option></select></label>
       <span class="badge">用时：<span id="time">0</span>s</span>
@@ -114,10 +111,9 @@ th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
   <div class="card" id="panel-l4" style="display:none">
     <h2>第四关 · 奖励视频</h2>
     <div class="videoWrap">
-      <!-- 加了 muted/playsinline/autoplay 组合以提高移动端起播成功率 -->
-      <video id="rewardVideo" controls playsinline webkit-playsinline muted preload="metadata" poster="皮影_学生表演.jpg">
+      <!-- 不自动播放，避免浏览器静音策略拦截；用户手动点播 -->
+      <video id="rewardVideo" controls playsinline webkit-playsinline preload="metadata" poster="皮影_学生表演.jpg">
         <source src="piying_reward.mp4" type="video/mp4"/>
-        您的浏览器不支持视频播放。
       </video>
       <div id="fallback" class="muted" style="margin-top:8px;display:none">
         视频加载遇到问题。你可以 <a href="piying_reward.mp4" download style="color:#60a5fa">点此下载</a> 或刷新重试。
@@ -138,14 +134,14 @@ th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
 </div>
 
 <script>
-/*** 后端地址（已对齐你给的字段规范 user/grade/clazz/score/watched） ***/
+/*** 你的 Vercel 后端（当前只认 user/grade/clazz/score/watched） ***/
 const CLOUD_ENDPOINT = "https://piying-feishu-backend.vercel.app/api/collect";
 
 /*** 工具与状态 ***/
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 let timer=null,timeSec=0,v_seen=false;
-const STORAGE_KEY="tengchong_heritage_cloud_v5";
-const QUEUE_KEY="tengchong_heritage_queue_v2";
+const STORAGE_KEY="tengchong_heritage_cloud_v4";
+const QUEUE_KEY="tengchong_heritage_queue_v1";
 
 function startTimer(){timeSec=0;$("#time").textContent="0";timer=setInterval(()=>{$("#time").textContent=++timeSec;},1000)}
 function stopTimer(){if(timer){clearInterval(timer);timer=null}}
@@ -174,21 +170,11 @@ function saveRecords(all){localStorage.setItem(STORAGE_KEY, JSON.stringify(all))
 function saveRecord(r){const all=loadRecords();all.push(r);all.sort((a,b)=>a.time_sec-b.time_sec);saveRecords(all.slice(0,200));}
 function loadQueue(){try{return JSON.parse(localStorage.getItem(QUEUE_KEY)||"[]")}catch{return[]}}
 function saveQueue(q){localStorage.setItem(QUEUE_KEY, JSON.stringify(q))}
-async function flushQueue(){
-  let q=loadQueue();
-  if(!q.length) return;
-  for(const item of [...q]){
-    try{
-      const res=await fetch(CLOUD_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(item)});
-      if(res.ok){ q=q.filter(x=>x!==item); saveQueue(q); }
-    }catch(_){}
-  }
-}
 
-/* 云端健康指示灯（仅做连通性提示，不影响游戏流程） */
+/* 云端健康指示灯 */
 async function pingCloud(){
   const dot=$("#cloudDot");
-  try{ await fetch(CLOUD_ENDPOINT,{method:"HEAD"}); dot.classList.remove("fail"); dot.classList.add("ok"); }
+  try{ await fetch(CLOUD_ENDPOINT,{method:"GET"}); dot.classList.remove("fail"); dot.classList.add("ok"); }
   catch{ dot.classList.remove("ok"); dot.classList.add("fail"); }
 }
 
@@ -225,7 +211,7 @@ function medalPNG({name,grade,klass,time_sec,moves}){
   const url=c.toDataURL("image/png"); const a=document.createElement("a"); a.href=url; a.download=`皮影戏通关勋章_${name||"匿名"}.png`; document.body.appendChild(a); a.click(); a.remove();
 }
 
-/*** 顶部按钮 ***/
+/*** 顶部按钮与流程 ***/
 $("#start").onclick=()=>{ 
   if($("#grade").value===""||$("#consent").value!=="是"){alert("请先选择年级并同意匿名数据用于教学改进");return}
   $("#reset").disabled=false; setDot(0); startTimer(); showPanel("panel-l1"); initL1();
@@ -316,9 +302,6 @@ function initL4(){
   const v=$("#rewardVideo"), fallback=$("#fallback"), btn=$("#finalize");
   fallback.style.display="none"; btn.disabled=true;
 
-  // 尝试自动播放静音版，若失败不影响后续
-  v.play().catch(()=>{ /* 忽略 */ });
-
   v.onplay=()=>{ v_seen=true; };
   v.onended=()=>{ btn.disabled=false; };
   v.onerror=()=>{ fallback.style.display="block"; btn.disabled=false; };
@@ -328,7 +311,7 @@ $("#finalize").onclick=async ()=>{
   stopTimer(); setDot(4);
 
   const rec={
-    timestamp:new Date().toISOString(), // 本机榜单用
+    timestamp:new Date().toISOString(),
     name: ($("#name").value||"").replace(/,/g," "),
     grade: $("#grade").value,
     class: ($("#klass").value||"").replace(/,/g," "),
@@ -340,24 +323,24 @@ $("#finalize").onclick=async ()=>{
   // 本机存档 + 榜单
   saveRecord(rec); refreshBoard();
 
-  // —— 对齐你最新后端字段：user/grade/clazz/score/watched ——
+  // —— 后端只认这一套字段 —— 
   const payload = {
     user: rec.name,
     grade: rec.grade,
     clazz: rec.class,
-    score: rec.l3_moves,     // 你后端把步数当 score
-    watched: rec.v_seen      // 布尔值
+    score: rec.l3_moves,
+    watched: rec.v_seen
   };
 
   let uploaded=false;
   try{
-    const r = await fetch(CLOUD_ENDPOINT,{
+    const resp = await fetch(CLOUD_ENDPOINT,{
       method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify(payload)
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify(payload)
     });
-    const j = await r.json().catch(()=>({}));
-    if(r.ok && j){ uploaded=true; }
+    const json = await resp.json().catch(()=>({}));
+    if(resp.ok && json && (json.msg==="success" || json.code===0)){ uploaded=true; }
   }catch(_){}
 
   if(uploaded){
@@ -365,7 +348,7 @@ $("#finalize").onclick=async ()=>{
   }else{
     // 入队等待下次自动补传
     const q=loadQueue(); q.push(payload); saveQueue(q);
-    alert("网络异常（已保存到本机，稍后自动补传）。");
+    alert("⚠️ 网络异常（已保存到本机，稍后自动补传）。");
   }
 
   // 勋章 + 单条 CSV
@@ -377,7 +360,22 @@ $("#finalize").onclick=async ()=>{
 
 /*** 初始化 ***/
 refreshBoard(); showPanel("panel-intro");
-pingCloud(); flushQueue();
+pingCloud();
+
+/* 定时尝试把离线队列上传（每 8 秒） */
+setInterval(async ()=>{
+  let q=loadQueue(); if(!q.length) return;
+  // 复制数组，逐个尝试
+  for(const item of [...q]){
+    try{
+      const r=await fetch(CLOUD_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(item)});
+      const j=await r.json().catch(()=>({}));
+      if(r.ok && j && (j.msg==="success"||j.code===0)){
+        q = q.filter(x=>x!==item); saveQueue(q);
+      }
+    }catch(_){}
+  }
+}, 8000);
 </script>
 </body>
 </html>
