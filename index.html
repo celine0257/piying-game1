@@ -133,7 +133,7 @@ th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
 </div>
 
 <script>
-/*** 你的 Vercel 后端（飞书写入已在后端处理） ***/
+/*** Vercel 后端入口 ***/
 const CLOUD_ENDPOINT = "https://piying-feishu-backend.vercel.app/api/collect";
 
 /*** 工具与状态 ***/
@@ -179,7 +179,7 @@ async function flushQueue(){
   }
 }
 
-/* 云端健康指示灯 */
+/* 云端健康指示灯（可选） */
 async function pingCloud(){
   const dot=$("#cloudDot");
   try{ await fetch(CLOUD_ENDPOINT); dot.classList.remove("fail"); dot.classList.add("ok"); }
@@ -314,10 +314,11 @@ function initL4(){
   v.onerror=()=>{ fallback.style.display="block"; btn.disabled=false; };
 }
 
+/*** === 只改这一段：上报 5 项数据（A→B→C 依次尝试） === ***/
 $("#finalize").onclick=async ()=>{
   stopTimer(); setDot(4);
   const rec={
-    timestamp:new Date().toISOString(),  // 仅用于本机榜单/CSV
+    timestamp:new Date().toISOString(),  // 仅本机用
     name: ($("#name").value||"").replace(/,/g," "),
     grade: $("#grade").value,
     class: ($("#klass").value||"").replace(/,/g," "),
@@ -329,42 +330,50 @@ $("#finalize").onclick=async ()=>{
   // 本机存档 + 榜单
   saveRecord(rec); refreshBoard();
 
-  // —— 按你的后端协议，上报仅 5 列：昵称/年级/班级/第3关步数/是否看视频 ——
+  // 三种形态（只含 5 项）
   const payloadA = {
     fields:{
       "昵称": rec.name,
       "年级": rec.grade,
       "班级": rec.class,
       "第3关步数": rec.l3_moves,
-      "是否看视频": rec.v_seen ? "是" : "否"   // A 形态：单选用“是/否”字符串
+      "是否看视频": rec.v_seen ? "是" : "否"
     }
   };
-  const payloadB = {                 // B 形态（备用）
+  const payloadB = {
     name: rec.name,
     grade: rec.grade,
     class: rec.class,
     l3_moves: rec.l3_moves,
-    v_seen: rec.v_seen             // true/false 自动转“是/否”
+    v_seen: rec.v_seen
   };
+  const payloadC = {
+    user: rec.name,
+    grade: rec.grade,
+    clazz: rec.class,
+    score: rec.l3_moves,
+    watched: rec.v_seen
+  };
+
+  async function tryPost(body){
+    const res = await fetch(CLOUD_ENDPOINT,{
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify(body)
+    });
+    let j={}; try{ j=await res.json(); }catch(_){}
+    return res.ok && j && (j.ok===true || j.success===true || j.status==="ok");
+  }
 
   let uploaded=false;
   try{
-    let r = await fetch(CLOUD_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payloadA)});
-    let j = await r.json().catch(()=>({}));
-    if(r.ok && j && j.ok){ uploaded=true; }
-    else{
-      // A 失败，尝试 B
-      r = await fetch(CLOUD_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payloadB)});
-      j = await r.json().catch(()=>({}));
-      if(r.ok && j && j.ok){ uploaded=true; }
-    }
-  }catch(_){ /* 忽略，走入队 */ }
+    uploaded = await tryPost(payloadA) || await tryPost(payloadB) || await tryPost(payloadC);
+  }catch(_){ uploaded=false; }
 
   if(uploaded){
     alert("✅ 记录已上报飞书。");
   }else{
-    // 入队等待下次自动补传（保存 A 形态即可）
-    const q=loadQueue(); q.push(payloadA); saveQueue(q);
+    const q=loadQueue(); q.push(payloadA); saveQueue(q); // 入队保存 A 形态
     alert("网络异常（已保存到本机，稍后自动补传）。");
   }
 
