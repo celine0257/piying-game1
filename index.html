@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>腾冲皮影戏 · 非遗探秘闯关</title>
+<style>
+:root{--bg:#0b1220;--panel:#0f172a;--ink:#e5e7eb;--muted:#9ca3af;--brand:#60a5fa;--ok:#34d399}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei";background:var(--bg);color:var(--ink)}
+.wrap{max-width:1100px;margin:0 auto;padding:18px}
+.card{background:var(--panel);border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.25);margin-bottom:14px}
+h1,h2{margin:0 0 12px}
+.muted{color:var(--muted);font-size:14px}
+input,select,button{border-radius:12px;border:1px solid #1f2937;padding:10px 12px;background:#0b1220;color:#fff}
+button{background:var(--brand);color:#09111f;font-weight:700;cursor:pointer;border:none}
+button.ghost{background:#0b1220;color:#fff;border:1px solid #374151}
+button:disabled{opacity:.5;cursor:not-allowed}
+.badge{font-size:12px;background:#0b1220;border:1px solid #374151;padding:2px 10px;border-radius:999px;color:#cbd5e1}
+.progress{display:flex;gap:4px;align-items:center}
+.dot{width:10px;height:10px;border-radius:50%;background:#1f2937}
+.dot.on{background:linear-gradient(180deg,#a7f3d0,#10b981)}
+.dot.cloud{width:8px;height:8px;margin-left:6px}
+.dot.ok{background:linear-gradient(180deg,#bbf7d0,#22c55e)}
+.dot.fail{background:linear-gradient(180deg,#fecaca,#ef4444)}
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gallery img{width:100%;height:240px;object-fit:cover;border-radius:12px;border:1px solid #374151}
+.gallery .span2{grid-column:1/span 2;height:280px}
+.cap{font-size:12px;color:#cbd5e1;margin:6px 2px 0}
+.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px}
+.stepSlot{min-height:72px;display:flex;align-items:center;justify-content:center;border:2px dashed #374151;border-radius:12px;color:#94a3b8;background:#0b1220}
+.stepSlot.locked{opacity:.6;filter:grayscale(30%)}
+.stepSlot.active{border-color:#3b82f6;box-shadow:0 0 0 2px rgba(59,130,246,.3) inset}
+.part{user-select:none;margin:8px 0;padding:10px 12px;background:#0f172a;border:1px solid #1f2937;border-radius:12px;cursor:grab}
+.partsBox{background:#0b1220;border:1px solid #374151;border-radius:16px;padding:12px}
+.good{outline:2px solid var(--ok)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.info{background:#0b1220;border:1px solid #374151;border-radius:14px;padding:12px;cursor:pointer}
+.info .title{font-weight:700;margin-bottom:6px}
+.info .content{display:none;font-size:13px;color:#cbd5e1}
+.info.learned{outline:2px solid var(--ok)}
+.board{--cols:4;display:grid;grid-template-columns:repeat(var(--cols),1fr);gap:10px}
+.cardtile{height:90px;background:#0b1220;border:1px solid #374151;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700}
+.cardtile.open{background:linear-gradient(135deg,#0b1220,#0f172a)}
+.videoWrap{background:#0b1220;border:1px solid #374151;border-radius:16px;padding:12px}
+video{width:100%;border-radius:12px;background:#000}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}
+th,td{border-bottom:1px solid #223;padding:8px;text-align:left}
+.footer{font-size:12px;color:#9ca3af;text-align:center;margin-top:8px}
+@keyframes shakeX{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-6px)}40%,60%{transform:translateX(6px)}}
+.shake{animation:shakeX .35s ease}
+@media (max-width:900px){.board{--cols:3}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="card">
+    <h1>腾冲皮影戏 · 非遗探秘闯关</h1>
+    <p class="muted">①制作步骤 → ②词条学习（10条） → ③记忆配对（随机 6 条，12 张卡） → ④奖励视频。通关后自动上报云端。</p>
+    <div class="progress" style="gap:10px;flex-wrap:wrap">
+      <label>昵称 <input id="name" placeholder="如：六（3）-29"></label>
+      <label>年级 <select id="grade"><option value="">请选择</option><option>一年级</option><option>二年级</option><option>三年级</option><option>四年级</option><option>五年级</option><option>六年级</option></select></label>
+      <label>班级 <input id="klass" placeholder="如：六（3）班"></label>
+      <label>同意匿名数据 <select id="consent"><option>是</option><option>否</option></select></label>
+      <span class="badge">用时：<span id="time">0</span>s</span>
+      <span class="badge">进度</span><span class="dot" id="d1"></span><span class="dot" id="d2"></span><span class="dot" id="d3"></span><span class="dot" id="d4"></span>
+      <button id="start">开始</button>
+      <button id="reset" class="ghost" disabled>重来</button>
+      <button id="export" class="ghost">导出全部CSV</button>
+    </div>
+  </div>
+
+  <!-- panels -->
+  <div class="card" id="panel-intro">
+    <h2>开场展板</h2>
+    <div class="gallery">
+      <div class="span2"><img src="校徽.png" alt=""><div class="cap">云南师大附小：非遗进校园。</div></div>
+      <div><img src="皮影_树下对坐.jpg" alt=""><div class="cap">影窗（白幕）+背后灯光。</div></div>
+      <div><img src="皮影_学生自制.jpg" alt=""><div class="cap">学生自制皮影。</div></div>
+      <div><img src="皮影_学生表演.jpg" alt=""><div class="cap">学生表演皮影。</div></div>
+    </div>
+  </div>
+
+  <div class="card" id="panel-l1" style="display:none">
+    <h2>第一关 · 制作步骤</h2>
+    <div class="timeline" id="slots">
+      <div class="stepSlot" data-index="0">第1步</div><div class="stepSlot locked" data-index="1">第2步</div><div class="stepSlot locked" data-index="2">第3步</div>
+      <div class="stepSlot locked" data-index="3">第4步</div><div class="stepSlot locked" data-index="4">第5步</div><div class="stepSlot locked" data-index="5">第6步</div>
+    </div>
+    <div class="partsBox" id="parts"></div>
+    <div><button id="to-l2" class="ghost" disabled>进入第二关</button></div>
+  </div>
+
+  <div class="card" id="panel-l2" style="display:none">
+    <h2>第二关 · 知识词条</h2>
+    <div class="grid" id="infogrid"></div>
+    <div><button id="to-l3" class="ghost" disabled>进入第三关</button></div>
+  </div>
+
+  <div class="card" id="panel-l3" style="display:none">
+    <h2>第三关 · 记忆配对</h2>
+    <span class="badge">步数：<span id="moves3">0</span></span>
+    <div class="board" id="board3"></div>
+    <div><button id="to-l4" disabled>进入第四关</button></div>
+  </div>
+
+  <div class="card" id="panel-l4" style="display:none">
+    <h2>第四关 · 奖励视频</h2>
+    <div class="videoWrap">
+      <video id="rewardVideo" controls preload="metadata">
+        <source src="piying_reward.mp4" type="video/mp4"/>
+      </video>
+    </div>
+    <div><button id="finalize" class="ghost" disabled>完成并上报</button></div>
+  </div>
+
+  <div class="card">
+    <h2>排行榜（本机）</h2>
+    <table id="boardT"><thead><tr><th>#</th><th>昵称</th><th>年级</th><th>班级</th><th>步数</th><th>看视频</th><th>时间</th></tr></thead><tbody></tbody></table>
+  </div>
+
+</div>
+
+<script>
+const CLOUD_ENDPOINT = "https://piying-feishu-backend.vercel.app/api/collect";
+let timeSec=0,v_seen=false,timer=null,current=0,moves=0,matched=0,flipped=[],lock=false;
+const FLOW=["干牛皮","雕刻","涂色","连接件","安装操杆","兵器/配件"];
+const FACTS={"影窗":"白幕灯光","东腔":"唱腔","西腔":"唱腔","锣鼓":"伴奏","唢呐":"管乐","靠子":"皮影本体","操杆":"控制动作","傣族舞台":"民族融合","故事题材":"三国西游","旅游演出":"夜市表演"};
+
+function $(s){return document.querySelector(s)};
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+$("#start").onclick=()=>{$("#reset").disabled=false;show("panel-l1");initL1();timer=setInterval(()=>{$("#time").textContent=++timeSec},1000)};
+$("#reset").onclick=()=>{clearInterval(timer);timeSec=0;$("#time").textContent=0;show("panel-intro")};
+$("#to-l2").onclick=()=>{show("panel-l2");initL2()};
+$("#to-l3").onclick=()=>{show("panel-l3");initL3()};
+$("#to-l4").onclick=()=>{show("panel-l4");initL4()};
+
+function show(id){["panel-intro","panel-l1","panel-l2","panel-l3","panel-l4"].forEach(pid=>$("#"+pid).style.display=(pid===id?"block":"none"))}
+
+function initL1(){current=0;$("#parts").innerHTML="";shuffle([...FLOW]).forEach(s=>{const el=document.createElement("div");el.className="part";el.textContent=s;el.draggable=true;el.ondragstart=e=>e.dataTransfer.setData("text/plain",s);el.dataset.name=s;$("#parts").appendChild(el)});
+  $$("#slots .stepSlot").forEach((slot,i)=>{slot.ondrop=e=>{e.preventDefault();const n=e.dataTransfer.getData("text/plain");if(i===current&&n===FLOW[current]){slot.textContent="✓ "+n;current++;if(current===FLOW.length)$("#to-l2").disabled=false}else{slot.classList.add("shake");setTimeout(()=>slot.classList.remove("shake"),350)}};slot.ondragover=e=>e.preventDefault()})}
+
+function initL2(){$("#infogrid").innerHTML="";let learned={};Object.keys(FACTS).forEach(k=>{const d=document.createElement("div");d.className="info";d.innerHTML="<div class='title'>"+k+"</div><div class='content'>"+FACTS[k]+"</div>";d.onclick=()=>{d.classList.add("learned");d.querySelector(".content").style.display="block";learned[k]=true;if(Object.keys(learned).length===Object.keys(FACTS).length)$("#to-l3").disabled=false};$("#infogrid").appendChild(d)})}
+
+function initL3(){moves=0;matched=0;flipped=[];lock=false;$("#moves3").textContent=0;const keys=shuffle(Object.keys(FACTS)).slice(0,6);const deck=shuffle(keys.concat(keys));$("#board3").innerHTML="";deck.forEach(k=>{const t=document.createElement("div");t.className="cardtile";t.textContent="翻开";t.dataset.term=k;t.onclick=()=>flip(t);$("#board3").appendChild(t)})}
+function flip(t){if(lock||t.classList.contains("open"))return;t.classList.add("open");t.textContent=t.dataset.term;flipped.push(t);$("#moves3").textContent=++moves;if(flipped.length===2){const[a,b]=flipped;if(a.dataset.term===b.dataset.term){matched++;flipped=[];if(matched===6)$("#to-l4").disabled=false}else{lock=true;setTimeout(()=>{a.classList.remove("open");b.classList.remove("open");a.textContent=b.textContent="翻开";flipped=[];lock=false},600)}}}
+
+function initL4(){v_seen=false;const v=$("#rewardVideo"),btn=$("#finalize");v.onplay=()=>{v_seen=true};v.onended=()=>{btn.disabled=false};btn.onclick=submitData}
+
+async function submitData(){clearInterval(timer);const playerName=$("#name").value,playerGrade=$("#grade").value,playerClass=$("#klass").value,finalScore=moves,hasWatchedVideo=v_seen;const payload={user:playerName,grade:playerGrade,clazz:playerClass,score:finalScore,watched:hasWatchedVideo};try{const res=await fetch(CLOUD_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});const data=await res.json();alert("提交成功:"+JSON.stringify(data))}catch(e){alert("提交失败:"+e)}}
+</script>
+</body>
+</html>
