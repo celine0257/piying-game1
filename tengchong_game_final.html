@@ -303,20 +303,52 @@ function flip(t){
   }
 }
 
-/*** L4：奖励视频 + 完成（上报 + 勋章 + CSV） ***/
-function initL4(){
-  v_seen=false;
-  const v=$("#rewardVideo"), fallback=$("#fallback"), btn=$("#finalize");
-  fallback.style.display="none"; btn.disabled=true;
+/function initL4(){
+  const v = document.getElementById("rewardVideo");
+  const btn = document.getElementById("finalize");
+  const fallback = document.getElementById("fallback");
 
-  // 自动尝试播放，不报错就算
-  v.play().catch(()=>{ /* 静默 */ });
+  // 初始状态
+  window.v_seen = false;
+  btn.disabled = true;
+  fallback.style.display = "none";
 
-  v.onplay=()=>{ v_seen=true; };
-  v.onended=()=>{ btn.disabled=false; };
-  v.onerror=()=>{ fallback.style.display="block"; btn.disabled=false; };
+  // iOS 内嵌播放友好设置
+  v.setAttribute("playsinline", "");
+  v.setAttribute("webkit-playsinline", "");
+  try { v.play().catch(()=>{}); } catch(_) {}
+
+  // 1) 播放就算“看过视频”
+  const onPlay = () => { window.v_seen = true; };
+  v.addEventListener("play", onPlay, { once: true });
+
+  // 2) 正常结束 → 解锁按钮
+  const onEnded = () => { btn.disabled = false; };
+  v.addEventListener("ended", onEnded, { once: true });
+
+  // 3) 兜底：看满 ≥10 秒 或接近视频尾部也放行
+  let tenSecPassed = false;
+  const onTime = () => {
+    if (!tenSecPassed && v.currentTime >= 10) {
+      tenSecPassed = true;
+      window.v_seen = true;
+      btn.disabled = false;
+    }
+    if (isFinite(v.duration) && v.duration > 0 && (v.duration - v.currentTime) < 0.5) {
+      btn.disabled = false;
+    }
+  };
+  v.addEventListener("timeupdate", onTime);
+
+  // 4) 出错 → 显示提示并放行
+  v.addEventListener("error", () => {
+    fallback.style.display = "block";
+    btn.disabled = false;
+  });
+
+  // 5) 再兜底：15 秒仍未解锁也放行（极端机型/网络）
+  setTimeout(() => { if (btn.disabled) btn.disabled = false; }, 15000);
 }
-
 $("#finalize").onclick=async ()=>{
   stopTimer(); setDot(4);
   const rec={
